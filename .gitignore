@@ -1,0 +1,68 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# ---- Virtual environments ----
+.venv/
+venv/
+env/
+ENV/
+
+# ---- Package managers / tooling ----
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.cache/
+
+# ---- IDEs ----
+.vscode/
+.idea/
+*.iml
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Jupyter ----
+.ipynb_checkpoints/
+
+# ---- Logs ----
+*.log
+
+# ---- Secrets / env ----
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.crt
+
+# ---- Data outputs (don’t commit large scraped data) ----
+data/
+output/
+outputs/
+*.csv
+*.parquet
+*.feather
+*.jsonl
+
+# If you DO want to keep small config JSONs, comment out *.json
+*.json
+
+# ---- Local sqlite / db ----
+*.sqlite
+*.sqlite3
+
+# ---- Temporary files ----
+tmp/
+temp/
+*.tmp
