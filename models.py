@@ -108,7 +108,7 @@ class Market(BaseModel):
 
 class PipelineConfig(BaseModel):
     data_dir: str = "."
-    train_cutoff: str = "2024-10-01"
+    train_cutoff: str = "2025-06-01"
     min_overlap_days: int = 7
     early_window_fraction: float = 0.4
     spike_threshold_sigma: float = 2.0

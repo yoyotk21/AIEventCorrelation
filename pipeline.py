@@ -103,7 +103,7 @@ class Pipeline:
         print("\n=== Mispricing analysis ===")
         predictivity = sum(w * F for w, F in zip(weights, normalized_test))
         mispricing_df = self.analyzer.compute_mispricing_table(
-            test_data, predictivity, test_idx, ground_truth_test, mask_test
+            test_data, predictivity, list(range(len(test_data.markets))), ground_truth_test, mask_test
         )
         stratified = self.analyzer.stratified_analysis(mispricing_df)
 
