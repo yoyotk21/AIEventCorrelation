@@ -24,7 +24,7 @@ features = [
 ]
 weights = [0.8139, 0.1561, 0.0300, 0.0000, 0.0000, 0.0000, 0.0000]
 
-# Sort by weight descending
+# sort by weight descending
 order = np.argsort(weights)[::-1]
 features = [features[i] for i in order]
 weights  = [weights[i]  for i in order]
@@ -57,7 +57,7 @@ plt.savefig("chart_weights.png", dpi=150, bbox_inches="tight")
 plt.close()
 print("Saved chart_weights.png")
 
-# ── Chart 2: MSE Comparison ───────────────────────────────────────────────────
+# Chart 2: MSE Comparison
 LIGHT_PURPLE = "#7E77BB"
 DARK_PURPLE = "#3C3489"
 
@@ -85,7 +85,7 @@ ax.tick_params(axis="x", length=0)
 ax.grid(axis="y")
 ax.grid(axis="x", visible=False)
 
-# Annotation arrow pointing to our model
+# arrow pointing to our model
 ax.annotate(
     "Our model",
     xy=(4, 0.2006),
