@@ -11,6 +11,11 @@ GAMMA = "https://gamma-api.polymarket.com"
 CLOB  = "https://clob.polymarket.com"
 DATA  = "https://data-api.polymarket.com"
 
+# Polymarket Data API /trades caps (announced Aug 26, 2025).
+DATA_TRADES_MAX_LIMIT = 500
+DATA_TRADES_MAX_OFFSET = 1000
+DATA_TRADES_PAGE_SIZE = DATA_TRADES_MAX_LIMIT
+
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent": "pm-corr-detect/0.1"})
 
@@ -95,19 +100,42 @@ def fetch_price_history(token_id: str, fidelity=1440, interval="max"):
 
 
 def fetch_trade_activity(condition_id: str):
-    '''fetches all indv trades for a market condition from the DATA API'''
+    '''fetches market trades from the DATA API, bounded by endpoint caps'''
     trades, offset = [], 0
-    while True:
+    truncated_by_offset_cap = False
+
+    while offset <= DATA_TRADES_MAX_OFFSET:
         batch = get_json(
             f"{DATA}/trades",
-            params={"market": condition_id, "limit": 100, "offset": offset},
+            params={
+                "market": condition_id,
+                "limit": DATA_TRADES_PAGE_SIZE,
+                "offset": offset,
+            },
         )
         if not batch:
             break
-        trades.extend(batch)
-        offset += 100
-        if len(batch) < 100:
+        if not isinstance(batch, list):
+            print(
+                f"  Warning: unexpected /trades response type for {condition_id}: "
+                f"{type(batch).__name__}"
+            )
             break
+
+        trades.extend(batch)
+        if len(batch) < DATA_TRADES_PAGE_SIZE:
+            break
+
+        if offset == DATA_TRADES_MAX_OFFSET:
+            truncated_by_offset_cap = True
+            break
+        offset += DATA_TRADES_PAGE_SIZE
+
+    if truncated_by_offset_cap:
+        print(
+            f"  Note: reached /trades offset cap ({DATA_TRADES_MAX_OFFSET}) for {condition_id}; "
+            "results may be truncated."
+        )
     return trades
 
 
